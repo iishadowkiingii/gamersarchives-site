@@ -36,7 +36,7 @@
         <span>◉</span><b id="topCredits">4,250</b><em>AC</em>
       </button>
       <button class="icon-button" type="button" aria-label="Notifications">♧</button>
-      <button class="avatar-button" type="button" data-view-link="profile" aria-label="Open profile">SK</button>
+      <button class="avatar-button" id="authProfileButton" type="button" aria-label="Sign in or open profile">?</button>
     </div>
   </header>
 
@@ -54,7 +54,7 @@
       </nav>
       <div class="sidebar-footer">
         <button class="nav-link" type="button" data-view-link="rules"><span>⌾</span> Rules & Safety</button>
-        <p>Front-end beta prototype</p>
+        <p><span class="connection-dot" id="connectionDot"></span><span id="backendStatus">Connecting to community database...</span></p>
       </div>
     </aside>
 
@@ -179,9 +179,9 @@
           <article class="panel slot-machine">
             <span class="eyebrow">Daily free-play</span>
             <h2>Vault Spin</h2>
-            <p>One free demo spin per visit. Every spin earns a small virtual credit bonus.</p>
+            <p>One server-checked free spin per day for signed-in members. Every spin earns virtual Archive Credits.</p>
             <div class="slot-reels" id="slotReels"><div>🎮</div><div>🏆</div><div>⚡</div></div>
-            <b class="slot-message" id="slotMessage">Daily demo spin available</b>
+            <b class="slot-message" id="slotMessage">Daily member spin available</b>
             <button class="primary-button" type="button" id="spinButton">Spin the vault</button>
           </article>
           <article class="panel arcade-card"><span>🧩</span><h3>Trivia Vault</h3><p>Answer gaming questions and earn a daily participation bonus.</p><button type="button" class="secondary-button" id="triviaButton">Play demo</button></article>
@@ -191,18 +191,18 @@
 
       <section class="view" id="view-profile" data-view="profile">
         <div class="profile-banner panel">
-          <div class="profile-avatar">SK</div>
-          <div><span class="eyebrow">Archive founder</span><h1>ShadowKiing</h1><p>@iishadowkiingii · Member since beta</p></div>
-          <button class="secondary-button" type="button">Edit profile</button>
+          <div class="profile-avatar" id="profileAvatar">?</div>
+          <div><span class="eyebrow" id="profileRole">Guest visitor</span><h1 id="profileName">Sign in to create your archive</h1><p id="profileHandle">Member profiles are saved after account creation.</p></div>
+          <button class="secondary-button" id="editProfileButton" type="button">Edit profile</button>
         </div>
         <div class="profile-grid">
           <section class="panel profile-main">
             <h2>Career snapshot</h2>
-            <div class="career-stats"><article><b>14</b><span>Wins</span></article><article><b>6</b><span>Uploaded clips</span></article><article><b>#38</b><span>Community rank</span></article><article><b id="profileCredits">4,250</b><span>Archive Credits</span></article></div>
+            <div class="career-stats"><article><b id="profileWins">0</b><span>Wins</span></article><article><b id="profileClipCount">0</b><span>Uploaded clips</span></article><article><b id="profileRank">—</b><span>Community rank</span></article><article><b id="profileCredits">0</b><span>Archive Credits</span></article></div>
             <h3>Featured badges</h3>
-            <div class="badges"><span>♛ Founder</span><span>⚔ Duelist</span><span>▶ Archivist</span><span>✦ Beta Member</span></div>
+            <div class="badges" id="profileBadges"><span>✦ Visitor</span></div>
           </section>
-          <aside class="panel activity-feed"><h3>Recent activity</h3><p><b>Won</b> a Tekken 8 duel against RivalCrew.</p><p><b>Uploaded</b> “Final Round Comeback.”</p><p><b>Joined</b> King of the Archive.</p></aside>
+          <aside class="panel activity-feed"><h3>Account status</h3><p id="profileAccountStatus">Sign in to post challenges, chat with members, and save your profile.</p><button class="secondary-button full" type="button" id="profileAuthButton">Sign in / Create account</button><button class="secondary-button full hidden" type="button" id="signOutButton">Sign out</button></aside>
         </div>
       </section>
 
@@ -220,8 +220,8 @@
     <aside class="right-rail">
       <section class="panel mini-profile">
         <div class="rail-heading"><span>Your profile</span><b>♙</b></div>
-        <div class="profile-row"><div class="profile-avatar small">SK</div><div><strong>ShadowKiing ✓</strong><small>Archive Founder</small></div></div>
-        <div class="mini-stats"><div><b>14</b><small>WINS</small></div><div><b>6</b><small>CLIPS</small></div><div><b>#38</b><small>RANK</small></div></div>
+        <div class="profile-row"><div class="profile-avatar small" id="railAvatar">?</div><div><strong id="railProfileName">Guest visitor</strong><small id="railProfileRole">Sign in to join</small></div></div>
+        <div class="mini-stats"><div><b id="railWins">0</b><small>WINS</small></div><div><b id="railClipCount">0</b><small>CLIPS</small></div><div><b id="railRank">—</b><small>RANK</small></div></div>
       </section>
       <section class="panel credit-panel">
         <div class="rail-heading"><span>Archive Credits</span><b>◉</b></div>
@@ -266,7 +266,7 @@
       <label>Game<input name="game" required placeholder="Example: Street Fighter 6" /></label>
       <div class="field-grid"><label>Format<select name="mode"><option>1v1</option><option>2v2</option><option>3v3</option><option>4v4</option><option>5v5</option></select></label><label>Max entries<input name="max" type="number" min="2" max="128" value="16" /></label></div>
       <label>Start time<input name="time" placeholder="Sat · 8:00 PM" /></label>
-      <button class="primary-button full" type="submit">Create demo event</button>
+      <button class="primary-button full" type="submit">Create tournament</button>
     </form>
   </dialog>
 
@@ -275,9 +275,9 @@
       <div class="modal-heading"><div><span class="eyebrow">Preserve the moment</span><h2>Upload highlight</h2></div><button type="button" class="modal-close" data-close-modal>×</button></div>
       <label>Clip title<input name="title" required placeholder="Example: Final-round comeback" /></label>
       <label>Game<input name="game" required placeholder="Example: Tekken 8" /></label>
-      <div class="field-grid"><label>Category<select name="type"><option>Highlight</option><option>Moment</option><option>Clip</option><option>Funny</option></select></label><label>Video file<input name="file" type="file" accept="video/*" /></label></div>
-      <small class="form-note">This static demo saves the post details locally. Real video storage is connected during the backend build.</small>
-      <button class="primary-button full" type="submit">Add to archive demo</button>
+      <div class="field-grid"><label>Category<select name="type"><option>Highlight</option><option>Moment</option><option>Clip</option><option>Funny</option></select></label><label>Video link<input name="video_url" type="url" placeholder="https://..." /></label></div>
+      <small class="form-note">For this connected beta, add a shareable video link. Direct file storage will be added in the next upgrade.</small>
+      <button class="primary-button full" type="submit">Add to archive</button>
     </form>
   </dialog>
 
@@ -287,12 +287,48 @@
       <label>Topic title<input name="title" required placeholder="What do you want to discuss?" /></label>
       <label>Category<select name="tag"><option>Discussion</option><option>Site Update</option><option>Tournament</option><option>Suggestion</option></select></label>
       <label>Opening message<textarea name="message" rows="4" placeholder="Write your post..."></textarea></label>
-      <button class="primary-button full" type="submit">Publish demo thread</button>
+      <button class="primary-button full" type="submit">Publish discussion</button>
+    </form>
+  </dialog>
+
+
+  <dialog class="modal" id="authModal">
+    <div class="auth-shell">
+      <div class="modal-heading"><div><span class="eyebrow">Member access</span><h2>Join GamersArchives</h2></div><button type="button" class="modal-close" data-close-modal>×</button></div>
+      <p class="auth-copy">Create an account to chat, post duels, create tournaments, and preserve your gaming legacy.</p>
+      <div class="auth-grid">
+        <form id="signInForm">
+          <h3>Sign in</h3>
+          <label>Email<input name="email" type="email" required autocomplete="email" /></label>
+          <label>Password<input name="password" type="password" required autocomplete="current-password" /></label>
+          <button class="primary-button full" type="submit">Sign in</button>
+        </form>
+        <form id="signUpForm">
+          <h3>Create account</h3>
+          <label>Gamer tag<input name="username" required minlength="3" maxlength="24" pattern="[A-Za-z0-9_]+" placeholder="ShadowKiing" /></label>
+          <label>Email<input name="email" type="email" required autocomplete="email" /></label>
+          <label>Password<input name="password" type="password" required minlength="6" autocomplete="new-password" /></label>
+          <button class="primary-button full" type="submit">Create account</button>
+        </form>
+      </div>
+      <small class="form-note">After creating an account, check your email for the confirmation link if email confirmation is enabled in Supabase.</small>
+    </div>
+  </dialog>
+
+  <dialog class="modal" id="editProfileModal">
+    <form id="editProfileForm">
+      <div class="modal-heading"><div><span class="eyebrow">Member profile</span><h2>Edit profile</h2></div><button type="button" class="modal-close" data-close-modal>×</button></div>
+      <label>Display name<input name="display_name" required maxlength="32" /></label>
+      <label>Username<input name="username" required minlength="3" maxlength="24" pattern="[a-z0-9_]+" /></label>
+      <small class="form-note">Use lowercase letters, numbers, and underscores for your username.</small>
+      <button class="primary-button full" type="submit">Save profile</button>
     </form>
   </dialog>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

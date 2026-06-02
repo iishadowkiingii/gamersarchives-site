@@ -1,51 +1,65 @@
-# GamersArchives.org front-end beta prototype
+# GamersArchives.org — Supabase-connected beta
 
-A deployable static starter website for a gaming tournament and community platform.
+This is the GitHub Pages-ready upgrade for GamersArchives.org.
 
-## Included in this prototype
+## What changed
 
-- Responsive home dashboard
-- Tournament listing, filters, and local demo creation
-- Duel challenge listing, filters, and local demo creation
-- Gaming clip archive and local demo upload form
-- Forum thread list and local demo posting
-- Live chat demo saved in the browser
-- Profile and badges
-- Virtual Archive Credits and free-play arcade demos
-- Rules and safety page
+- Email/password member registration and sign-in
+- Saved public member profiles
+- Shared tournaments, duel challenges, clips, forum threads, and chat messages
+- Supabase Realtime refresh for live lobby chat inserts
+- Row Level Security policies for browser-safe database access
+- Server-controlled daily Vault Spin reward with one claim per signed-in member per day
+- Video links for archive clips; direct file storage remains a later upgrade
 
-## Run locally
+## Step 1 — Set the authentication redirect URL
 
-Open `index.html` in a web browser. No installation is required.
+In Supabase Dashboard, open **Authentication → URL Configuration**.
 
-For a local development server, run one of the following commands inside this folder:
+Set **Site URL** to:
 
-```bash
-python -m http.server 8080
+```text
+https://iishadowkiingii.github.io/gamersarchives-site/
 ```
 
-Then open `http://localhost:8080` in a browser.
+Add the same address under **Redirect URLs**.
 
-## Publish free with Netlify Drop
+## Step 2 — Run the database setup
 
-1. Extract the ZIP file.
-2. Visit Netlify Drop in a web browser.
-3. Drag the `gamersarchives-site` folder into the upload area.
-4. Netlify provides a free public site address.
+In Supabase Dashboard, open **SQL Editor → New query**.
 
-## What still needs a backend
+Copy everything from `supabase-setup.sql`, paste it into the editor, and click **Run**.
 
-This is a polished front-end prototype. The browser stores demo data with `localStorage`, so it is not shared across devices or members.
+## Step 3 — Upload the new GitHub files
 
-A production version should connect to a backend for:
+In your GitHub repository `gamersarchives-site`, upload the contents of this folder and replace the existing files.
 
-- Real account registration and login
-- Database-backed tournaments, brackets, profiles, forum posts, and credit history
-- Secure moderator and administrator roles
-- Video storage, upload limits, and content moderation
-- Realtime chat and notifications
-- Rate limiting, anti-spam tools, and reporting workflows
+The important files are:
 
-## Archive Credits safety rule
+```text
+index.html
+styles.css
+app.js
+config.js
+supabase-setup.sql
+README.md
+assets/
+```
 
-Archive Credits are designed as virtual community points only. They must not be sold, purchased, traded, transferred, cashed out, or exchanged for money, gift cards, physical prizes, or anything else with real-world value without appropriate legal review.
+Commit the changes. GitHub Pages will update the live site after the commit is deployed.
+
+## Optional founder role
+
+After you create your own website account, open SQL Editor and run this with your actual new username:
+
+```sql
+update public.profiles
+set role = 'founder', credits = 4250
+where username = 'your_username';
+```
+
+## Security note
+
+`config.js` contains the public Supabase URL and publishable browser key. This is expected for a browser application. The database tables are protected by Row Level Security policies in `supabase-setup.sql`.
+
+Never put a Supabase secret key, service-role key, or database password into this repository.
