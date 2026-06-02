@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#070914" />
+  <meta name="description" content="GamersArchives.org — compete, archive your best gaming moments, and connect with the community." />
+  <title>GamersArchives.org | Compete. Connect. Leave Your Legacy.</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Orbitron:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="background-grid"></div>
+  <div class="orb orb-one"></div>
+  <div class="orb orb-two"></div>
+
+  <header class="topbar">
+    <a class="brand" href="#home" data-view-link="home" aria-label="GamersArchives home">
+      <img class="brand-mark" src="assets/logo-mark.svg" alt="GamersArchives logo" />
+      <span>
+        <strong>GamersArchives<span>.org</span></strong>
+        <small>Compete · Archive · Connect</small>
+      </span>
+    </a>
+
+    <label class="global-search">
+      <span>⌕</span>
+      <input id="globalSearch" type="search" placeholder="Search games, tournaments, clips, members..." />
+    </label>
+
+    <div class="topbar-actions">
+      <button class="credit-chip" type="button" data-view-link="arcade" aria-label="Open arcade">
+        <span>◉</span><b id="topCredits">4,250</b><em>AC</em>
+      </button>
+      <button class="icon-button" type="button" aria-label="Notifications">♧</button>
+      <button class="avatar-button" type="button" data-view-link="profile" aria-label="Open profile">SK</button>
+    </div>
+  </header>
+
+  <div class="app-shell">
+    <aside class="sidebar panel">
+      <nav class="nav-list" aria-label="Primary navigation">
+        <button class="nav-link active" type="button" data-view-link="home"><span>⌂</span> Home</button>
+        <button class="nav-link" type="button" data-view-link="tournaments"><span>♛</span> Tournaments</button>
+        <button class="nav-link" type="button" data-view-link="duels"><span>⚔</span> Duels</button>
+        <button class="nav-link" type="button" data-view-link="archives"><span>▶</span> Archives</button>
+        <button class="nav-link" type="button" data-view-link="forums"><span>☷</span> Forums</button>
+        <button class="nav-link" type="button" data-view-link="chat"><span>◌</span> Live Chat</button>
+        <button class="nav-link" type="button" data-view-link="arcade"><span>✦</span> Arcade</button>
+        <button class="nav-link" type="button" data-view-link="profile"><span>♙</span> Profile</button>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="nav-link" type="button" data-view-link="rules"><span>⌾</span> Rules & Safety</button>
+        <p>Front-end beta prototype</p>
+      </div>
+    </aside>
+
+    <main class="content-area">
+      <section class="view active" id="view-home" data-view="home">
+        <article class="hero panel">
+          <div class="hero-copy">
+            <span class="eyebrow">Community beta concept</span>
+            <h1>Your gaming legacy belongs in the <span>Archives.</span></h1>
+            <p>Challenge rivals, join brackets, upload unforgettable moments, talk with the community, and earn Archive Credits through participation.</p>
+            <div class="hero-actions">
+              <button class="primary-button" type="button" data-view-link="tournaments">♛ Find a tournament</button>
+              <button class="secondary-button" type="button" data-open-modal="duelModal">⚔ Create a duel</button>
+            </div>
+          </div>
+          <div class="hero-emblem" aria-hidden="true">
+            <div class="emblem-ring"><img src="assets/logo-mark.svg" alt="" /></div>
+          </div>
+        </article>
+
+        <section class="dashboard-strip">
+          <article class="stat-card panel"><span>Upcoming events</span><b>12</b><small>Across 8 games</small></article>
+          <article class="stat-card panel"><span>Open challenges</span><b id="homeDuelCount">3</b><small>Find your next rival</small></article>
+          <article class="stat-card panel"><span>Archived moments</span><b id="homeClipCount">3</b><small>Community highlights</small></article>
+          <article class="stat-card panel"><span>Members online</span><b>184</b><small>Lobby is active</small></article>
+        </section>
+
+        <section class="content-section">
+          <div class="section-heading"><div><small>Live competition</small><h2>Featured tournaments</h2></div><button type="button" data-view-link="tournaments">Browse all →</button></div>
+          <div class="card-grid three" id="featuredTournamentGrid"></div>
+        </section>
+
+        <section class="content-section">
+          <div class="section-heading"><div><small>Challenge board</small><h2>Open duels</h2></div><button type="button" data-view-link="duels">View all →</button></div>
+          <div class="card-grid three" id="homeDuelGrid"></div>
+        </section>
+
+        <section class="content-section">
+          <div class="section-heading"><div><small>Community vault</small><h2>Latest archived moments</h2></div><button type="button" data-view-link="archives">Explore archive →</button></div>
+          <div class="card-grid three" id="homeClipGrid"></div>
+        </section>
+      </section>
+
+      <section class="view" id="view-tournaments" data-view="tournaments">
+        <div class="page-heading">
+          <div><span class="eyebrow">Competition hub</span><h1>Tournaments</h1><p>Discover brackets, register your team, and preserve every championship result.</p></div>
+          <button class="primary-button" type="button" data-open-modal="tournamentModal">＋ Create tournament</button>
+        </div>
+        <div class="toolbar panel">
+          <input id="tournamentSearch" type="search" placeholder="Search tournaments or games..." />
+          <select id="tournamentMode"><option value="all">All formats</option><option>1v1</option><option>2v2</option><option>3v3</option><option>4v4</option><option>5v5</option></select>
+          <select id="tournamentStatus"><option value="all">All statuses</option><option>Registration</option><option>Almost Full</option><option>Upcoming</option></select>
+        </div>
+        <div class="card-grid three" id="tournamentGrid"></div>
+      </section>
+
+      <section class="view" id="view-duels" data-view="duels">
+        <div class="page-heading">
+          <div><span class="eyebrow">Rivalry board</span><h1>Duels</h1><p>Create open challenges from 1v1 through 5v5 or accept a rival's callout.</p></div>
+          <button class="primary-button" type="button" data-open-modal="duelModal">⚔ Create duel</button>
+        </div>
+        <div class="toolbar panel">
+          <input id="duelSearch" type="search" placeholder="Search by game or challenger..." />
+          <select id="duelMode"><option value="all">All formats</option><option>1v1</option><option>2v2</option><option>3v3</option><option>4v4</option><option>5v5</option></select>
+        </div>
+        <div class="card-grid three" id="duelGrid"></div>
+      </section>
+
+      <section class="view" id="view-archives" data-view="archives">
+        <div class="page-heading">
+          <div><span class="eyebrow">Community vault</span><h1>Gaming Archives</h1><p>Upload highlights, clutch moments, funny clips, and memories worth keeping.</p></div>
+          <button class="primary-button" type="button" data-open-modal="clipModal">⇧ Upload highlight</button>
+        </div>
+        <div class="toolbar panel">
+          <input id="clipSearch" type="search" placeholder="Search clips, creators, or games..." />
+          <select id="clipType"><option value="all">All categories</option><option>Highlight</option><option>Moment</option><option>Clip</option><option>Funny</option></select>
+        </div>
+        <div class="card-grid three" id="clipGrid"></div>
+      </section>
+
+      <section class="view" id="view-forums" data-view="forums">
+        <div class="page-heading">
+          <div><span class="eyebrow">Community boards</span><h1>Forums</h1><p>Follow site updates, discuss games, organize teams, and share feedback.</p></div>
+          <button class="primary-button" type="button" data-open-modal="forumModal">＋ New discussion</button>
+        </div>
+        <div class="forum-layout">
+          <div class="panel forum-board">
+            <div class="forum-board-heading"><b>Recent discussions</b><span id="forumThreadCount">3 threads</span></div>
+            <div id="forumList"></div>
+          </div>
+          <aside class="panel forum-categories">
+            <h3>Categories</h3>
+            <button type="button">📢 Site Updates <span>12</span></button>
+            <button type="button">🏆 Tournaments <span>38</span></button>
+            <button type="button">⚔ Duels <span>29</span></button>
+            <button type="button">🎮 General Gaming <span>74</span></button>
+            <button type="button">💡 Suggestions <span>21</span></button>
+          </aside>
+        </div>
+      </section>
+
+      <section class="view" id="view-chat" data-view="chat">
+        <div class="page-heading">
+          <div><span class="eyebrow">The lobby</span><h1>Live Chat</h1><p>Talk with the community and meet players for upcoming tournaments and duels.</p></div>
+        </div>
+        <div class="chat-layout">
+          <section class="panel chat-panel">
+            <div class="chat-header"><div><b># general-lobby</b><small>Community hangout</small></div><span>● 184 online</span></div>
+            <div class="chat-feed" id="chatFeed"></div>
+            <form class="chat-form" id="chatForm"><input id="chatMessage" maxlength="240" placeholder="Message #general-lobby" /><button class="primary-button" type="submit">Send</button></form>
+          </section>
+          <aside class="panel member-list"><h3>Online members</h3><div><span class="member-dot admin"></span><b>ArchiveAdmin</b><small>Founder</small></div><div><span class="member-dot"></span><b>ShadowKiing</b><small>Online</small></div><div><span class="member-dot"></span><b>Vante</b><small>Online</small></div><div><span class="member-dot"></span><b>NovaSquad</b><small>Looking for team</small></div><div><span class="member-dot"></span><b>RoadKing</b><small>In tournament</small></div></aside>
+        </div>
+      </section>
+
+      <section class="view" id="view-arcade" data-view="arcade">
+        <div class="page-heading">
+          <div><span class="eyebrow">Virtual rewards only</span><h1>Archive Arcade</h1><p>Use free-play activities to earn community points for cosmetic badges, flair, and leaderboard recognition.</p></div>
+        </div>
+        <div class="notice panel"><b>Archive Credits have no cash value.</b> Credits cannot be purchased, traded, transferred, or redeemed for money, gift cards, or physical prizes.</div>
+        <div class="arcade-grid">
+          <article class="panel slot-machine">
+            <span class="eyebrow">Daily free-play</span>
+            <h2>Vault Spin</h2>
+            <p>One free demo spin per visit. Every spin earns a small virtual credit bonus.</p>
+            <div class="slot-reels" id="slotReels"><div>🎮</div><div>🏆</div><div>⚡</div></div>
+            <b class="slot-message" id="slotMessage">Daily demo spin available</b>
+            <button class="primary-button" type="button" id="spinButton">Spin the vault</button>
+          </article>
+          <article class="panel arcade-card"><span>🧩</span><h3>Trivia Vault</h3><p>Answer gaming questions and earn a daily participation bonus.</p><button type="button" class="secondary-button" id="triviaButton">Play demo</button></article>
+          <article class="panel arcade-card"><span>🔮</span><h3>Prediction Pool</h3><p>Make free predictions on featured tournament outcomes for leaderboard points.</p><button type="button" class="secondary-button" id="predictionButton">Coming soon</button></article>
+        </div>
+      </section>
+
+      <section class="view" id="view-profile" data-view="profile">
+        <div class="profile-banner panel">
+          <div class="profile-avatar">SK</div>
+          <div><span class="eyebrow">Archive founder</span><h1>ShadowKiing</h1><p>@iishadowkiingii · Member since beta</p></div>
+          <button class="secondary-button" type="button">Edit profile</button>
+        </div>
+        <div class="profile-grid">
+          <section class="panel profile-main">
+            <h2>Career snapshot</h2>
+            <div class="career-stats"><article><b>14</b><span>Wins</span></article><article><b>6</b><span>Uploaded clips</span></article><article><b>#38</b><span>Community rank</span></article><article><b id="profileCredits">4,250</b><span>Archive Credits</span></article></div>
+            <h3>Featured badges</h3>
+            <div class="badges"><span>♛ Founder</span><span>⚔ Duelist</span><span>▶ Archivist</span><span>✦ Beta Member</span></div>
+          </section>
+          <aside class="panel activity-feed"><h3>Recent activity</h3><p><b>Won</b> a Tekken 8 duel against RivalCrew.</p><p><b>Uploaded</b> “Final Round Comeback.”</p><p><b>Joined</b> King of the Archive.</p></aside>
+        </div>
+      </section>
+
+      <section class="view" id="view-rules" data-view="rules">
+        <div class="page-heading"><div><span class="eyebrow">Community first</span><h1>Rules & Safety</h1><p>A competitive platform should still be welcoming, fair, and secure.</p></div></div>
+        <div class="rules-grid">
+          <article class="panel"><h3>Respect members</h3><p>No harassment, slurs, hate speech, threats, or targeted abuse. Rivalries stay competitive, not personal.</p></article>
+          <article class="panel"><h3>Play fair</h3><p>No cheating, match fixing, smurfing to manipulate results, or falsifying match evidence.</p></article>
+          <article class="panel"><h3>Upload responsibly</h3><p>Only upload content you have the right to share. Report inappropriate clips and forum posts.</p></article>
+          <article class="panel"><h3>Virtual credits only</h3><p>Archive Credits are cosmetic community points. They are not money and have no real-world value.</p></article>
+        </div>
+      </section>
+    </main>
+
+    <aside class="right-rail">
+      <section class="panel mini-profile">
+        <div class="rail-heading"><span>Your profile</span><b>♙</b></div>
+        <div class="profile-row"><div class="profile-avatar small">SK</div><div><strong>ShadowKiing ✓</strong><small>Archive Founder</small></div></div>
+        <div class="mini-stats"><div><b>14</b><small>WINS</small></div><div><b>6</b><small>CLIPS</small></div><div><b>#38</b><small>RANK</small></div></div>
+      </section>
+      <section class="panel credit-panel">
+        <div class="rail-heading"><span>Archive Credits</span><b>◉</b></div>
+        <strong><span id="railCredits">4,250</span> <em>AC</em></strong>
+        <p>Virtual community points only. No purchase, trading, cash-out, or real-world value.</p>
+        <button class="secondary-button full" type="button" data-view-link="arcade">✦ Open arcade</button>
+      </section>
+      <section class="panel shortcuts">
+        <div class="rail-heading"><span>Quick actions</span><b>＋</b></div>
+        <button type="button" data-open-modal="clipModal">⇧ Upload a highlight</button>
+        <button type="button" data-open-modal="tournamentModal">♛ Create tournament</button>
+        <button type="button" data-open-modal="duelModal">⚔ Create duel</button>
+      </section>
+    </aside>
+  </div>
+
+  <div class="mobile-nav">
+    <button class="active" type="button" data-view-link="home"><span>⌂</span>Home</button>
+    <button type="button" data-view-link="tournaments"><span>♛</span>Events</button>
+    <button type="button" data-view-link="duels"><span>⚔</span>Duels</button>
+    <button type="button" data-view-link="archives"><span>▶</span>Clips</button>
+    <button type="button" data-view-link="chat"><span>◌</span>Chat</button>
+  </div>
+
+  <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true"></div>
+
+  <dialog class="modal" id="duelModal">
+    <form method="dialog" id="duelForm">
+      <div class="modal-heading"><div><span class="eyebrow">Challenge a rival</span><h2>Create a duel</h2></div><button type="button" class="modal-close" data-close-modal>×</button></div>
+      <label>Game<input name="game" required placeholder="Example: Tekken 8" /></label>
+      <div class="field-grid"><label>Format<select name="mode"><option>1v1</option><option>2v2</option><option>3v3</option><option>4v4</option><option>5v5</option></select></label><label>Virtual stake<select name="stake"><option>100 AC</option><option>250 AC</option><option>500 AC</option><option>900 AC</option><option>1,200 AC</option></select></label></div>
+      <label>Rank requirement<input name="rank" placeholder="Any Rank" /></label>
+      <small class="form-note">Demo only: Archive Credits are virtual community points with no real-world value.</small>
+      <button class="primary-button full" type="submit">Post open challenge</button>
+    </form>
+  </dialog>
+
+  <dialog class="modal" id="tournamentModal">
+    <form method="dialog" id="tournamentForm">
+      <div class="modal-heading"><div><span class="eyebrow">New event</span><h2>Create tournament</h2></div><button type="button" class="modal-close" data-close-modal>×</button></div>
+      <label>Tournament title<input name="title" required placeholder="Example: Friday Night Vault" /></label>
+      <label>Game<input name="game" required placeholder="Example: Street Fighter 6" /></label>
+      <div class="field-grid"><label>Format<select name="mode"><option>1v1</option><option>2v2</option><option>3v3</option><option>4v4</option><option>5v5</option></select></label><label>Max entries<input name="max" type="number" min="2" max="128" value="16" /></label></div>
+      <label>Start time<input name="time" placeholder="Sat · 8:00 PM" /></label>
+      <button class="primary-button full" type="submit">Create demo event</button>
+    </form>
+  </dialog>
+
+  <dialog class="modal" id="clipModal">
+    <form method="dialog" id="clipForm">
+      <div class="modal-heading"><div><span class="eyebrow">Preserve the moment</span><h2>Upload highlight</h2></div><button type="button" class="modal-close" data-close-modal>×</button></div>
+      <label>Clip title<input name="title" required placeholder="Example: Final-round comeback" /></label>
+      <label>Game<input name="game" required placeholder="Example: Tekken 8" /></label>
+      <div class="field-grid"><label>Category<select name="type"><option>Highlight</option><option>Moment</option><option>Clip</option><option>Funny</option></select></label><label>Video file<input name="file" type="file" accept="video/*" /></label></div>
+      <small class="form-note">This static demo saves the post details locally. Real video storage is connected during the backend build.</small>
+      <button class="primary-button full" type="submit">Add to archive demo</button>
+    </form>
+  </dialog>
+
+  <dialog class="modal" id="forumModal">
+    <form method="dialog" id="forumForm">
+      <div class="modal-heading"><div><span class="eyebrow">Community boards</span><h2>Start a discussion</h2></div><button type="button" class="modal-close" data-close-modal>×</button></div>
+      <label>Topic title<input name="title" required placeholder="What do you want to discuss?" /></label>
+      <label>Category<select name="tag"><option>Discussion</option><option>Site Update</option><option>Tournament</option><option>Suggestion</option></select></label>
+      <label>Opening message<textarea name="message" rows="4" placeholder="Write your post..."></textarea></label>
+      <button class="primary-button full" type="submit">Publish demo thread</button>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
