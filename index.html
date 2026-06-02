@@ -33,7 +33,7 @@
 
     <div class="topbar-actions">
       <button class="credit-chip" type="button" data-view-link="arcade" aria-label="Open arcade">
-        <span>◉</span><b id="topCredits">4,250</b><em>AC</em>
+        <span>◉</span><b id="topCredits">0</b><em>AC</em>
       </button>
       <button class="icon-button" type="button" aria-label="Notifications">♧</button>
       <button class="avatar-button" id="authProfileButton" type="button" aria-label="Sign in or open profile">?</button>
@@ -62,7 +62,7 @@
       <section class="view active" id="view-home" data-view="home">
         <article class="hero panel">
           <div class="hero-copy">
-            <span class="eyebrow">Community beta concept</span>
+            <span class="eyebrow">Brand-new community beta</span>
             <h1>Your gaming legacy belongs in the <span>Archives.</span></h1>
             <p>Challenge rivals, join brackets, upload unforgettable moments, talk with the community, and earn Archive Credits through participation.</p>
             <div class="hero-actions">
@@ -76,10 +76,10 @@
         </article>
 
         <section class="dashboard-strip">
-          <article class="stat-card panel"><span>Upcoming events</span><b>12</b><small>Across 8 games</small></article>
-          <article class="stat-card panel"><span>Open challenges</span><b id="homeDuelCount">3</b><small>Find your next rival</small></article>
-          <article class="stat-card panel"><span>Archived moments</span><b id="homeClipCount">3</b><small>Community highlights</small></article>
-          <article class="stat-card panel"><span>Members online</span><b>184</b><small>Lobby is active</small></article>
+          <article class="stat-card panel"><span>Upcoming events</span><b id="homeTournamentCount">1</b><small>New community setup</small></article>
+          <article class="stat-card panel"><span>Open challenges</span><b id="homeDuelCount">1</b><small>Find your next rival</small></article>
+          <article class="stat-card panel"><span>Archived moments</span><b id="homeClipCount">2</b><small>Community highlights</small></article>
+          <article class="stat-card panel"><span>Sample profiles</span><b>2</b><small>Founder + test character</small></article>
         </section>
 
         <section class="content-section">
@@ -142,16 +142,16 @@
         </div>
         <div class="forum-layout">
           <div class="panel forum-board">
-            <div class="forum-board-heading"><b>Recent discussions</b><span id="forumThreadCount">3 threads</span></div>
+            <div class="forum-board-heading"><b>Recent discussions</b><span id="forumThreadCount">2 threads</span></div>
             <div id="forumList"></div>
           </div>
           <aside class="panel forum-categories">
             <h3>Categories</h3>
-            <button type="button">📢 Site Updates <span>12</span></button>
-            <button type="button">🏆 Tournaments <span>38</span></button>
-            <button type="button">⚔ Duels <span>29</span></button>
-            <button type="button">🎮 General Gaming <span>74</span></button>
-            <button type="button">💡 Suggestions <span>21</span></button>
+            <button type="button">📢 Site Updates <span>1</span></button>
+            <button type="button">🏆 Tournaments <span>0</span></button>
+            <button type="button">⚔ Duels <span>0</span></button>
+            <button type="button">🎮 General Gaming <span>1</span></button>
+            <button type="button">💡 Suggestions <span>0</span></button>
           </aside>
         </div>
       </section>
@@ -162,11 +162,11 @@
         </div>
         <div class="chat-layout">
           <section class="panel chat-panel">
-            <div class="chat-header"><div><b># general-lobby</b><small>Community hangout</small></div><span>● 184 online</span></div>
+            <div class="chat-header"><div><b># general-lobby</b><small>Community hangout</small></div><span>● Brand-new lobby</span></div>
             <div class="chat-feed" id="chatFeed"></div>
             <form class="chat-form" id="chatForm"><input id="chatMessage" maxlength="240" placeholder="Message #general-lobby" /><button class="primary-button" type="submit">Send</button></form>
           </section>
-          <aside class="panel member-list"><h3>Online members</h3><div><span class="member-dot admin"></span><b>ArchiveAdmin</b><small>Founder</small></div><div><span class="member-dot"></span><b>ShadowKiing</b><small>Online</small></div><div><span class="member-dot"></span><b>Vante</b><small>Online</small></div><div><span class="member-dot"></span><b>NovaSquad</b><small>Looking for team</small></div><div><span class="member-dot"></span><b>RoadKing</b><small>In tournament</small></div></aside>
+          <aside class="panel member-list"><h3>Sample profiles</h3><div><span class="member-dot admin"></span><b>iishadowkiingii</b><small>Founder</small></div><div><span class="member-dot"></span><b>TestCharacter</b><small>Test profile</small></div></aside>
         </div>
       </section>
 
@@ -225,7 +225,7 @@
       </section>
       <section class="panel credit-panel">
         <div class="rail-heading"><span>Archive Credits</span><b>◉</b></div>
-        <strong><span id="railCredits">4,250</span> <em>AC</em></strong>
+        <strong><span id="railCredits">0</span> <em>AC</em></strong>
         <p>Virtual community points only. No purchase, trading, cash-out, or real-world value.</p>
         <button class="secondary-button full" type="button" data-view-link="arcade">✦ Open arcade</button>
       </section>
@@ -251,7 +251,7 @@
   <dialog class="modal" id="duelModal">
     <form method="dialog" id="duelForm">
       <div class="modal-heading"><div><span class="eyebrow">Challenge a rival</span><h2>Create a duel</h2></div><button type="button" class="modal-close" data-close-modal>×</button></div>
-      <label>Game<input name="game" required placeholder="Example: Tekken 8" /></label>
+      <label>Game<input name="game" required placeholder="Example: Test Game" /></label>
       <div class="field-grid"><label>Format<select name="mode"><option>1v1</option><option>2v2</option><option>3v3</option><option>4v4</option><option>5v5</option></select></label><label>Virtual stake<select name="stake"><option>100 AC</option><option>250 AC</option><option>500 AC</option><option>900 AC</option><option>1,200 AC</option></select></label></div>
       <label>Rank requirement<input name="rank" placeholder="Any Rank" /></label>
       <small class="form-note">Demo only: Archive Credits are virtual community points with no real-world value.</small>
@@ -262,8 +262,8 @@
   <dialog class="modal" id="tournamentModal">
     <form method="dialog" id="tournamentForm">
       <div class="modal-heading"><div><span class="eyebrow">New event</span><h2>Create tournament</h2></div><button type="button" class="modal-close" data-close-modal>×</button></div>
-      <label>Tournament title<input name="title" required placeholder="Example: Friday Night Vault" /></label>
-      <label>Game<input name="game" required placeholder="Example: Street Fighter 6" /></label>
+      <label>Tournament title<input name="title" required placeholder="Example: Welcome Tournament Test" /></label>
+      <label>Game<input name="game" required placeholder="Example: Test Game" /></label>
       <div class="field-grid"><label>Format<select name="mode"><option>1v1</option><option>2v2</option><option>3v3</option><option>4v4</option><option>5v5</option></select></label><label>Max entries<input name="max" type="number" min="2" max="128" value="16" /></label></div>
       <label>Start time<input name="time" placeholder="Sat · 8:00 PM" /></label>
       <button class="primary-button full" type="submit">Create tournament</button>
@@ -273,8 +273,8 @@
   <dialog class="modal" id="clipModal">
     <form method="dialog" id="clipForm">
       <div class="modal-heading"><div><span class="eyebrow">Preserve the moment</span><h2>Upload highlight</h2></div><button type="button" class="modal-close" data-close-modal>×</button></div>
-      <label>Clip title<input name="title" required placeholder="Example: Final-round comeback" /></label>
-      <label>Game<input name="game" required placeholder="Example: Tekken 8" /></label>
+      <label>Clip title<input name="title" required placeholder="Example: Highlight Upload Test" /></label>
+      <label>Game<input name="game" required placeholder="Example: Test Game" /></label>
       <div class="field-grid"><label>Category<select name="type"><option>Highlight</option><option>Moment</option><option>Clip</option><option>Funny</option></select></label><label>Video link<input name="video_url" type="url" placeholder="https://..." /></label></div>
       <small class="form-note">For this connected beta, add a shareable video link. Direct file storage will be added in the next upgrade.</small>
       <button class="primary-button full" type="submit">Add to archive</button>
@@ -305,7 +305,7 @@
         </form>
         <form id="signUpForm">
           <h3>Create account</h3>
-          <label>Gamer tag<input name="username" required minlength="3" maxlength="24" pattern="[A-Za-z0-9_]+" placeholder="ShadowKiing" /></label>
+          <label>Gamer tag<input name="username" required minlength="3" maxlength="24" pattern="[A-Za-z0-9_]+" placeholder="iishadowkiingii" /></label>
           <label>Email<input name="email" type="email" required autocomplete="email" /></label>
           <label>Password<input name="password" type="password" required minlength="6" autocomplete="new-password" /></label>
           <button class="primary-button full" type="submit">Create account</button>

@@ -4,29 +4,22 @@ const supabaseClient = window.supabase?.createClient?.(config.supabaseUrl, confi
 const demoSeed = {
   credits: 0,
   tournaments: [
-    { id: 'demo-t1', game: 'Tekken 8', title: 'King of the Archive', mode: '1v1', entries: '28 / 32', reward: '8,000 AC', status: 'Registration', time: 'Sat · 8:00 PM' },
-    { id: 'demo-t2', game: 'Rainbow Six Siege', title: 'Vault Breakers', mode: '5v5', entries: '7 / 8', reward: '18,000 AC', status: 'Almost Full', time: 'Sun · 7:00 PM' },
-    { id: 'demo-t3', game: 'Call of Duty', title: 'Archive Warfare', mode: '4v4', entries: '12 / 16', reward: '14,000 AC', status: 'Registration', time: 'Fri · 9:30 PM' },
+    { id: 'demo-t1', game: 'Test Game', title: 'Welcome Tournament Test', mode: '1v1', entries: '1 / 8', reward: '500 AC', status: 'Registration', time: 'Schedule pending' },
   ],
   duels: [
-    { id: 'demo-d1', challenger: 'ShadowKiing', opponent: 'Open Challenge', game: 'Street Fighter 6', mode: '1v1', stake: '500 AC', rank: 'Gold+', live: true },
-    { id: 'demo-d2', challenger: 'NovaSquad', opponent: 'Open Challenge', game: 'Rocket League', mode: '3v3', stake: '900 AC', rank: 'Any Rank', live: false },
-    { id: 'demo-d3', challenger: 'Vante', opponent: 'RivalCrew', game: 'Tekken 8', mode: '2v2', stake: '1,200 AC', rank: 'Platinum', live: true },
+    { id: 'demo-d1', challenger: 'iishadowkiingii', opponent: 'TestCharacter', game: 'Test Game', mode: '1v1', stake: '100 AC', rank: 'Any Rank', live: false },
   ],
   clips: [
-    { id: 'demo-c1', title: 'Final Round Comeback', game: 'Tekken 8', creator: '@ShadowKiing', views: '2.4K', duration: '0:48', type: 'Highlight', videoUrl: '' },
-    { id: 'demo-c2', title: '1v4 Clutch in the Vault', game: 'Rainbow Six Siege', creator: '@ArchiveGhost', views: '1.8K', duration: '1:12', type: 'Moment', videoUrl: '' },
-    { id: 'demo-c3', title: 'Cleanest Drift Finish', game: 'Motorfest', creator: '@RoadKing', views: '984', duration: '0:36', type: 'Clip', videoUrl: '' },
+    { id: 'demo-c1', title: 'Highlight Upload Test', game: 'Test Game', creator: '@iishadowkiingii', views: '0', duration: '0:30', type: 'Highlight', videoUrl: '' },
+    { id: 'demo-c2', title: 'Character Moment Test', game: 'Test Game', creator: '@TestCharacter', views: '0', duration: '0:30', type: 'Moment', videoUrl: '' },
   ],
   forums: [
-    { id: 'demo-f1', tag: 'Site Update', title: 'GamersArchives beta roadmap', author: 'ArchiveAdmin', replies: 34, ago: '2h ago' },
-    { id: 'demo-f2', tag: 'Tournament', title: 'Tekken 8 bracket rules and check-in time', author: 'BracketMaster', replies: 18, ago: '5h ago' },
-    { id: 'demo-f3', tag: 'Discussion', title: 'What game should get the next community league?', author: 'NovaSquad', replies: 67, ago: 'Yesterday' },
+    { id: 'demo-f1', tag: 'Site Update', title: 'Welcome to GamersArchives', author: 'iishadowkiingii', replies: 0, ago: 'Just now' },
+    { id: 'demo-f2', tag: 'Discussion', title: 'Test discussion', author: 'TestCharacter', replies: 0, ago: 'Just now' },
   ],
   chat: [
-    { id: 'demo-m1', user: 'ArchiveAdmin', text: 'Welcome to the GamersArchives connected beta lobby.', time: 'Recently' },
-    { id: 'demo-m2', user: 'Vante', text: 'Who is joining the Tekken tournament?', time: 'Recently' },
-    { id: 'demo-m3', user: 'NovaSquad', text: 'We need one more team for Siege.', time: 'Recently' },
+    { id: 'demo-m1', user: 'iishadowkiingii', text: 'Welcome to the brand-new GamersArchives lobby.', time: 'Recently' },
+    { id: 'demo-m2', user: 'TestCharacter', text: 'This is a test character message so you can preview the chat layout.', time: 'Recently' },
   ],
 };
 
@@ -142,6 +135,7 @@ function render() {
   $('#chatFeed').innerHTML = state.chat.map(chatMessage).join('');
   $('#chatFeed').scrollTop = $('#chatFeed').scrollHeight;
   ['topCredits', 'railCredits', 'profileCredits'].forEach(id => $('#' + id).textContent = formatNumber(state.profile?.credits || 0));
+  $('#homeTournamentCount').textContent = state.tournaments.length;
   $('#homeDuelCount').textContent = state.duels.length;
   $('#homeClipCount').textContent = state.clips.length;
   $('#forumThreadCount').textContent = `${state.forums.length} thread${state.forums.length === 1 ? '' : 's'}`;

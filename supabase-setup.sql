@@ -269,38 +269,35 @@ begin
 end $$;
 
 -- Starter public content.
+-- Clear only system-created preview rows when rerunning setup. Member-created rows stay untouched.
+delete from public.chat_messages where user_id is null;
+delete from public.forum_threads where created_by is null;
+delete from public.clips where created_by is null;
+delete from public.duels where created_by is null;
+delete from public.tournaments where created_by is null;
+
 insert into public.tournaments(id,title,game,mode,entry_count,max_entries,reward_text,status,starts_text) values
-('10000000-0000-0000-0000-000000000001','King of the Archive','Tekken 8','1v1',28,32,'8,000 AC','Registration','Sat · 8:00 PM'),
-('10000000-0000-0000-0000-000000000002','Vault Breakers','Rainbow Six Siege','5v5',7,8,'18,000 AC','Almost Full','Sun · 7:00 PM'),
-('10000000-0000-0000-0000-000000000003','Archive Warfare','Call of Duty','4v4',12,16,'14,000 AC','Registration','Fri · 9:30 PM'),
-('10000000-0000-0000-0000-000000000004','Friday Fight Vault','Street Fighter 6','1v1',18,24,'6,000 AC','Upcoming','Fri · 8:00 PM'),
-('10000000-0000-0000-0000-000000000005','Aerial Archives','Rocket League','3v3',10,12,'10,000 AC','Registration','Tue · 7:30 PM'),
-('10000000-0000-0000-0000-000000000006','Builders Battle','Minecraft','2v2',9,16,'5,000 AC','Upcoming','Wed · 6:00 PM')
-on conflict (id) do nothing;
+('10000000-0000-0000-0000-000000000001','Welcome Tournament Test','Test Game','1v1',1,8,'500 AC','Registration','Schedule pending')
+on conflict (id) do update set title=excluded.title, game=excluded.game, mode=excluded.mode, entry_count=excluded.entry_count, max_entries=excluded.max_entries, reward_text=excluded.reward_text, status=excluded.status, starts_text=excluded.starts_text;
 
 insert into public.duels(id,challenger_name,opponent_name,game,mode,stake_ac,rank_requirement,live) values
-('20000000-0000-0000-0000-000000000001','ShadowKiing','Open Challenge','Street Fighter 6','1v1',500,'Gold+',true),
-('20000000-0000-0000-0000-000000000002','NovaSquad','Open Challenge','Rocket League','3v3',900,'Any Rank',false),
-('20000000-0000-0000-0000-000000000003','Vante','RivalCrew','Tekken 8','2v2',1200,'Platinum',true)
-on conflict (id) do nothing;
+('20000000-0000-0000-0000-000000000001','iishadowkiingii','TestCharacter','Test Game','1v1',100,'Any Rank',false)
+on conflict (id) do update set challenger_name=excluded.challenger_name, opponent_name=excluded.opponent_name, game=excluded.game, mode=excluded.mode, stake_ac=excluded.stake_ac, rank_requirement=excluded.rank_requirement, live=excluded.live;
 
 insert into public.clips(id,creator_name,title,game,category,views,duration_text) values
-('30000000-0000-0000-0000-000000000001','ShadowKiing','Final Round Comeback','Tekken 8','Highlight',2400,'0:48'),
-('30000000-0000-0000-0000-000000000002','ArchiveGhost','1v4 Clutch in the Vault','Rainbow Six Siege','Moment',1800,'1:12'),
-('30000000-0000-0000-0000-000000000003','RoadKing','Cleanest Drift Finish','Motorfest','Clip',984,'0:36')
-on conflict (id) do nothing;
+('30000000-0000-0000-0000-000000000001','iishadowkiingii','Highlight Upload Test','Test Game','Highlight',0,'0:30'),
+('30000000-0000-0000-0000-000000000002','TestCharacter','Character Moment Test','Test Game','Moment',0,'0:30')
+on conflict (id) do update set creator_name=excluded.creator_name, title=excluded.title, game=excluded.game, category=excluded.category, views=excluded.views, duration_text=excluded.duration_text;
 
 insert into public.forum_threads(id,author_name,tag,title,body,reply_count,created_at) values
-('40000000-0000-0000-0000-000000000001','ArchiveAdmin','Site Update','GamersArchives beta roadmap','Welcome to the first connected GamersArchives.org beta.','34',now() - interval '2 hours'),
-('40000000-0000-0000-0000-000000000002','BracketMaster','Tournament','Tekken 8 bracket rules and check-in time','Review the event rules before joining the bracket.','18',now() - interval '5 hours'),
-('40000000-0000-0000-0000-000000000003','NovaSquad','Discussion','What game should get the next community league?','Share the next game you want to see featured.','67',now() - interval '1 day')
-on conflict (id) do nothing;
+('40000000-0000-0000-0000-000000000001','iishadowkiingii','Site Update','Welcome to GamersArchives','This is the first clean site-update example for the new community. Add your real announcements when you are ready.',0,now()),
+('40000000-0000-0000-0000-000000000002','TestCharacter','Discussion','Test discussion','This is a clearly labeled test-character post so you can preview the discussion layout.',0,now())
+on conflict (id) do update set author_name=excluded.author_name, tag=excluded.tag, title=excluded.title, body=excluded.body, reply_count=excluded.reply_count, created_at=excluded.created_at;
 
 insert into public.chat_messages(id,author_name,body,created_at) values
-('50000000-0000-0000-0000-000000000001','ArchiveAdmin','Welcome to the GamersArchives connected beta lobby.',now() - interval '12 minutes'),
-('50000000-0000-0000-0000-000000000002','Vante','Who is joining the Tekken tournament?',now() - interval '8 minutes'),
-('50000000-0000-0000-0000-000000000003','NovaSquad','We need one more team for Siege.',now() - interval '5 minutes')
-on conflict (id) do nothing;
+('50000000-0000-0000-0000-000000000001','iishadowkiingii','Welcome to the brand-new GamersArchives lobby.',now() - interval '2 minutes'),
+('50000000-0000-0000-0000-000000000002','TestCharacter','This is a test character message so you can preview the chat layout.',now() - interval '1 minute')
+on conflict (id) do update set author_name=excluded.author_name, body=excluded.body, created_at=excluded.created_at;
 
 -- Optional after you create your own account:
--- update public.profiles set role = 'founder', credits = 4250 where username = 'YOUR_USERNAME';
+-- update public.profiles set role = 'founder', credits = 4250 where username = 'iishadowkiingii';
