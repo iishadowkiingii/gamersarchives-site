@@ -63,3 +63,8 @@ where username = 'your_username';
 `config.js` contains the public Supabase URL and publishable browser key. This is expected for a browser application. The database tables are protected by Row Level Security policies in `supabase-setup.sql`.
 
 Never put a Supabase secret key, service-role key, or database password into this repository.
+
+
+## Login compatibility patch
+
+This build includes `supabase-lite.js`, a browser-native Auth and REST client. It removes the external CDN dependency and displays login errors inside the account window instead of failing silently. Upload this file with the rest of the site files.

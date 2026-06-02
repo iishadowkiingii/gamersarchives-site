@@ -311,7 +311,8 @@
           <button class="primary-button full" type="submit">Create account</button>
         </form>
       </div>
-      <small class="form-note">After creating an account, check your email for the confirmation link if email confirmation is enabled in Supabase.</small>
+      <p class="auth-status" id="authStatus">Ready to connect.</p>
+      <small class="form-note">Create an account first, then sign in. If email confirmation is enabled in Supabase, use the confirmation link before signing in.</small>
     </div>
   </dialog>
 
@@ -327,8 +328,8 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="config.js"></script>
+  <script src="supabase-lite.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

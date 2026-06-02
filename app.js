@@ -1,5 +1,5 @@
 const config = window.GAMERSARCHIVES_CONFIG || {};
-const supabaseClient = window.supabase?.createClient?.(config.supabaseUrl, config.supabasePublishableKey);
+const supabaseClient = window.supabase?.createClient?.(config.supabaseUrl, config.supabasePublishableKey) || window.GamersArchivesSupabaseLite?.createClient?.(config.supabaseUrl, config.supabasePublishableKey);
 
 const demoSeed = {
   credits: 0,
@@ -58,7 +58,8 @@ function ago(value) {
   return `${Math.floor(seconds / 86400)}d ago`;
 }
 function clock(value) { return value ? new Date(value).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) : 'Recently'; }
-function showToast(message) { const toast = $('#toast'); toast.textContent = message; toast.classList.add('show'); clearTimeout(showToast.timer); showToast.timer = setTimeout(() => toast.classList.remove('show'), 3400); }
+function showToast(message) { const toast = $('#toast'); if (!toast) return; toast.textContent = message; toast.classList.add('show'); clearTimeout(showToast.timer); showToast.timer = setTimeout(() => toast.classList.remove('show'), 4200); }
+function setAuthStatus(message, type = 'info') { const box = $('#authStatus'); if (!box) return; box.textContent = message; box.classList.toggle('error', type === 'error'); box.classList.toggle('success', type === 'success'); }
 function setConnection(connected, text) { state.connected = connected; $('#connectionDot').classList.toggle('online', connected); $('#connectionDot').classList.toggle('offline', !connected); $('#backendStatus').textContent = text; }
 
 function setView(name) {
@@ -235,7 +236,7 @@ document.addEventListener('click', event => {
 $('#authProfileButton').addEventListener('click', () => state.user ? setView('profile') : openModal('authModal'));
 $('#profileAuthButton').addEventListener('click', () => openModal('authModal'));
 $('#editProfileButton').addEventListener('click', () => { if (!requireAccount()) return; $('#editProfileForm').elements.display_name.value = state.profile?.display_name || ''; $('#editProfileForm').elements.username.value = state.profile?.username || ''; openModal('editProfileModal'); });
-$('#signOutButton').addEventListener('click', async () => { await supabaseClient.auth.signOut(); showToast('Signed out.'); setView('home'); });
+$('#signOutButton').addEventListener('click', async () => { if (!supabaseClient) return showToast('Connection client is unavailable.'); try { await supabaseClient.auth.signOut(); setAuthStatus('Signed out.', 'success'); showToast('Signed out.'); setView('home'); } catch (error) { setAuthStatus(`Sign-out failed: ${error.message}`, 'error'); showToast(`Sign-out failed: ${error.message}`); } });
 
 $('#tournamentSearch').addEventListener('input', e => filterCards('#tournamentGrid', e.target.value, $('#tournamentMode').value, $('#tournamentStatus').value));
 $('#tournamentMode').addEventListener('change', e => filterCards('#tournamentGrid', $('#tournamentSearch').value, e.target.value, $('#tournamentStatus').value));
@@ -248,17 +249,36 @@ $('#globalSearch').addEventListener('keydown', e => { if (e.key === 'Enter') { s
 
 $('#signUpForm').addEventListener('submit', async event => {
   event.preventDefault();
-  const data = new FormData(event.target);
-  const username = formValue(data, 'username');
-  const { error } = await supabaseClient.auth.signUp({ email:formValue(data,'email'), password:formValue(data,'password'), options:{ emailRedirectTo:config.siteUrl, data:{ username, display_name:username } } });
-  if (error) return showToast(`Account creation failed: ${error.message}`);
-  closeModals(); event.target.reset(); showToast('Account created. Check your email confirmation link, then sign in.');
+  if (!supabaseClient) { setAuthStatus('Connection client did not load. Upload supabase-lite.js with the updated files.', 'error'); return showToast('Connection client did not load.'); }
+  const button = event.submitter; if (button) button.disabled = true;
+  setAuthStatus('Creating your account...');
+  try {
+    const data = new FormData(event.target);
+    const username = formValue(data, 'username');
+    const { data:result, error } = await supabaseClient.auth.signUp({ email:formValue(data,'email'), password:formValue(data,'password'), options:{ emailRedirectTo:config.siteUrl, data:{ username, display_name:username } } });
+    if (error) { setAuthStatus(`Account creation failed: ${error.message}`, 'error'); return showToast(`Account creation failed: ${error.message}`); }
+    event.target.reset();
+    if (result?.access_token || result?.session) {
+      setAuthStatus('Account created and signed in successfully.', 'success'); closeModals(); showToast('Account created. You are signed in.');
+    } else {
+      setAuthStatus('Account created. Check your email confirmation link, then return here to sign in.', 'success');
+      showToast('Account created. Check your email confirmation link.');
+    }
+  } catch (error) { setAuthStatus(`Account creation failed: ${error.message}`, 'error'); showToast(`Account creation failed: ${error.message}`); }
+  finally { if (button) button.disabled = false; }
 });
 $('#signInForm').addEventListener('submit', async event => {
-  event.preventDefault(); const data = new FormData(event.target);
-  const { error } = await supabaseClient.auth.signInWithPassword({ email:formValue(data,'email'), password:formValue(data,'password') });
-  if (error) return showToast(`Sign-in failed: ${error.message}`);
-  closeModals(); event.target.reset(); showToast('Signed in successfully.');
+  event.preventDefault();
+  if (!supabaseClient) { setAuthStatus('Connection client did not load. Upload supabase-lite.js with the updated files.', 'error'); return showToast('Connection client did not load.'); }
+  const button = event.submitter; if (button) button.disabled = true;
+  setAuthStatus('Signing you in...');
+  try {
+    const data = new FormData(event.target);
+    const { error } = await supabaseClient.auth.signInWithPassword({ email:formValue(data,'email'), password:formValue(data,'password') });
+    if (error) { setAuthStatus(`Sign-in failed: ${error.message}`, 'error'); return showToast(`Sign-in failed: ${error.message}`); }
+    event.target.reset(); setAuthStatus('Signed in successfully.', 'success'); closeModals(); showToast('Signed in successfully.');
+  } catch (error) { setAuthStatus(`Sign-in failed: ${error.message}`, 'error'); showToast(`Sign-in failed: ${error.message}`); }
+  finally { if (button) button.disabled = false; }
 });
 $('#editProfileForm').addEventListener('submit', async event => {
   event.preventDefault(); if (!requireAccount()) return;
@@ -313,11 +333,12 @@ $('#predictionButton').addEventListener('click', () => showToast('Free predictio
 
 async function init() {
   render();
-  if (!supabaseClient) { useDemoFallback(); showToast('Supabase configuration is missing.'); return; }
-  supabaseClient.auth.onAuthStateChange(async (_event, session) => { state.user = session?.user || null; try { await loadProfile(); } catch { state.profile = null; } render(); });
-  await refreshAccount();
-  await loadCommunityData();
-  subscribeRealtime();
+  if (!supabaseClient) { useDemoFallback(); setAuthStatus('Connection client is unavailable. Upload supabase-lite.js with the updated site files.', 'error'); showToast('Connection client is unavailable.'); return; }
+  setAuthStatus('Account system loaded. Create an account or sign in.');
+  supabaseClient.auth.onAuthStateChange(async (_event, session) => { state.user = session?.user || null; try { await loadProfile(); } catch (error) { console.warn('Profile load failed:', error); state.profile = null; } render(); });
+  try { await refreshAccount(); await loadCommunityData(); subscribeRealtime(); }
+  catch (error) { console.warn('Startup failed:', error); useDemoFallback(); setAuthStatus(`Database connection warning: ${error.message}`, 'error'); showToast(`Database connection warning: ${error.message}`); }
 }
+
 
 init();
